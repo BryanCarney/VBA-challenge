@@ -143,6 +143,8 @@ Sub GetDataToSummary()
                      End If
                  Next cell
                  
+                 LastRowL = ws.Cells(ws.Rows.Count, "L").End(xlUp).Row
+                 
                  For Each cellL In ws.Range("L2:L" & LastRowL)
                      If IsEmpty(cellL.Value) Then
                          cellL.Interior.ColorIndex = xlNone
