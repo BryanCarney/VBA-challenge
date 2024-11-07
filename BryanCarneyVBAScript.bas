@@ -152,7 +152,7 @@ Sub GetDataToSummary()
                          cellL.Interior.Color = RGB(0, 255, 0)
                      End If
                  
-                 Next cell
+                 Next cellL
                  
                  
                  Ticker_Total = Ticker_Total + ws.Cells(i, 7).Value
