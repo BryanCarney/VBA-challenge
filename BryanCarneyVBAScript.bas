@@ -1,7 +1,6 @@
 Attribute VB_Name = "Module1"
 Option Explicit
 
-
 Sub GetDataToSummary()
 
     'Trick shared by a co-worker to minimize run time on Macro
@@ -12,7 +11,7 @@ Sub GetDataToSummary()
     For Each ws In ThisWorkbook.Worksheets
     ws.Activate
            
-           
+        '################################################################################################################################################
         'Create Summary Data headers to populate data and format cells in each sheet to create the formatting and standarization across all sheets.
         Range("A1").Select
         ActiveCell.Range("J1").Value = "Ticker"
@@ -30,19 +29,15 @@ Sub GetDataToSummary()
         End With
         Columns("L").NumberFormat = ("0.00%")
         Columns("M").NumberFormat = ("#,000")
-        Range("O2").Select
-        Selection.NumberFormat = ("0.00%")
-        Range("O3").Select
-        Selection.Style = "Percent"
         Range("P4").Select
         Selection.NumberFormat = ("#,000")
         Columns("A:P").Select
         Selection.Columns.AutoFit
         Range("A1").Select
                  
-        
+         '################################################################################################################################################
          'DeclareVariables in For loop and Ticker
-         Dim i As Integer
+         Dim i As Long
          Dim Ticker_Name As String
          
          'declare variables to grab the Min and Max Date for each ticker
@@ -62,20 +57,35 @@ Sub GetDataToSummary()
          Ticker_Total = 0
          
          'Declare vaiable for SummaryRowTable and set it to one
-         Dim SummaryRowTable As Integer
+         Dim SummaryRowTable As Long
          SummaryRowTable = 1
          
          'Decalre vaiable to loop through until the last row of the ticker data to capture datapoints
-         Dim LastRow As Integer
+         Dim LastRow As Long
          LastRow = Cells(Rows.Count, 1).End(xlUp).Row
          
-         'Delcare variables for colour conditions for Quarterly Change
+         'Delcare variables for colour conditions for the Quarterly ticker Change in Column K
          Dim LastRowK As Long
          Dim cell As Range
          
+         'Declare Variables for detemining the last row for Quarterly % Change in Column L
          Dim LastRowL As Long
          Dim cellL As Range
          
+         'Declaring variables and setting the totals to zero in order to run second "For" loop to generate the values and formatting for the summary tables which captures the three metrics based on J-M data
+         Dim j As Long
+         Dim MaxValue As Double
+         MaxValue = 0
+         Dim Max_Ticker As String
+         Dim MinValue As Double
+         MinValue = 0
+         Dim Min_Ticker As String
+         Dim MaxVolume As Double
+         MaxVolume = 0
+         Dim MaxVolume_Ticker As String
+         Dim LastRow_Summary As Long
+         
+         '################################################################################################################################################
          'For Loop to first summarize the Ticker Total Volume
          For i = 2 To LastRow
 
@@ -88,7 +98,7 @@ Sub GetDataToSummary()
                  Range("M" & SummaryRowTable).Value = Ticker_Total
                  
                 
-                 'Refortting of the data column so it could be calculated as a formal date - Not sure if completely neccessary but wanted to be sure when transferring the code to the working file to ensure the code effected the same way
+                 'Refortting of the data column so it could be calculated as a formal date
                  Range("B" & i).Value = DateSerial(Left(Cells(i, 2).Value, 4), Mid(Cells(i, 2).Value, 5, 2), Right(Cells(i, 2).Value, 2))
      
                  'continuation of for loop to retrieve the first date and last Date in the series.  Written this way in case the dates were not in order.
@@ -127,7 +137,6 @@ Sub GetDataToSummary()
                      Range("L" & SummaryRowTable).Value = ((QCloseBal - QOpenBal) / QOpenBal)
      
                  End If
-                 
                      
                  'Use conditional formatting to change the colour of the cells for Quarterly change if they reflect a positive or negative value after it generated into the cells in the code above
          
@@ -156,7 +165,7 @@ Sub GetDataToSummary()
                  
                  Next cellL
                  
-                 
+                 'Place generated values for Ticker Total into the the correct column
                  Ticker_Total = Ticker_Total + ws.Cells(i, 7).Value
                  Range("M" & SummaryRowTable).Value = Ticker_Total
              End If
@@ -164,51 +173,26 @@ Sub GetDataToSummary()
          Next i
     
          'Summary table for Greatest increase, decrease and largest total
-                 
-         Dim j As Integer
-         Dim MaxValue As Double
-         Dim Max_Ticker As String
-         Dim MinValue As Double
-         Dim Min_Ticker As String
-         Dim MaxVolume As Double
-         Dim MaxVolume_Ticker As String
-         
-         Dim LastRow_Summary As Integer
+
          LastRow_Summary = Cells(Rows.Count, 12).End(xlUp).Row
      
          ' Find greatest % increase and respective ticker and place these in the summary table
      
-         MaxValue = Range("L2").Value
              For j = 3 To LastRow_Summary
                  If Cells(j, 12).Value > MaxValue Then
                      MaxValue = Cells(j, 12).Value
                      Max_Ticker = Cells(j, 10).Value
                  End If
-             Next j
-         
-         'Place values into cells
-       
-         Range("O2").Value = Max_Ticker
-         Range("P2").Value = MaxValue
-         Range("P2").NumberFormat = "0.00%"
-         
+   
          ' Find greatest % decrease and respective ticker and place these in the summary table
-         MinValue = Range("L2").Value
-             For j = 3 To LastRow_Summary
+
                  If Cells(j, 12).Value < MinValue Then
                      MinValue = Cells(j, 12).Value
                      Min_Ticker = Cells(j, 10).Value
                  End If
-             Next j
-         
-         'Place values into cells
-         Range("O3").Value = Min_Ticker
-         Range("P3").Value = MinValue
-         Range("P3").NumberFormat = "0.00%"
-         
+        
          ' Find greatest total increase and respective ticker and place these in the summary table
-         MaxVolume = Range("M2").Value
-             For j = 3 To LastRow_Summary
+
                  If Cells(j, 13).Value > MaxVolume Then
                      MaxVolume = Cells(j, 13).Value
                      MaxVolume_Ticker = Cells(j, 10).Value
@@ -216,7 +200,12 @@ Sub GetDataToSummary()
              Next j
          
          'Place values into cells
-       
+         Range("O2").Value = Max_Ticker
+         Range("P2").Value = MaxValue
+         Range("P2").NumberFormat = "0.00%"
+         Range("O3").Value = Min_Ticker
+         Range("P3").Value = MinValue
+         Range("P3").NumberFormat = "0.00%"
          Range("O4").Value = MaxVolume_Ticker
          Range("P4").Value = MaxVolume
 
@@ -226,4 +215,3 @@ Sub GetDataToSummary()
 
 End Sub
 
-    
