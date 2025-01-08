@@ -1,12 +1,10 @@
 # VBA-challenge
 
-##########################################################################################################
 In the below part of the code, I was removing the screen updating prior to the code to minimize of the MACRO's run time. 
 
     Code Extract:
     Application.ScreenUpdating = False
 
-##########################################################################################################
 In the below code, I wanted to setup the initial tabs to contain all the header information as well as setup some of the formatting for the columns I knew would be standard across 
 the sheets.  It successfully ran throughout all my sheets and allowed me to setup the columns and headers with the information I needed to see before moving on to the next part of the code.
         
@@ -33,8 +31,6 @@ the sheets.  It successfully ran throughout all my sheets and allowed me to setu
         Selection.Columns.AutoFit
         Range("A1").Select
 
-##########################################################################################################
-
 The below "For" loop was based on an in class activity in order to generate the Ticker Total along with its Total Volume
 
          For i = 2 To LastRow
@@ -46,7 +42,6 @@ The below "For" loop was based on an in class activity in order to generate the 
                  
                  Range("J" & SummaryRowTable).Value = Ticker_Name
                  Range("M" & SummaryRowTable).Value = Ticker_Total
-##########################################################################################################
 
 The below code reformats column B into a proper date format.  As the testing data did not come in a date format, I wanted to ensure that I converted this to a date in order to feel confident about applying Min and Max conditions.  Also to ensure once I ran the code against the file they want, that it did not stop due to the cells being different formats. Also, I wanted to also "safe guard" the column to ensure that if the dates were not in the correct order, they would still ensure to grab the true Minimum and Maximum dates instead of simply taking the first line vs the last line. 
 
@@ -59,7 +54,6 @@ The below code reformats column B into a proper date format.  As the testing dat
                  MaxDate = Cells(i, 2).Value
                  QCloseBal = Cells(i, 6).Value
                  
-##########################################################################################################
 The below code take the reformatted date colums and applies the Boolean expression to ensure the cells we are retrieving are formatted correctly as a date in order to be picked up as a part of the condition. Essentially if the length of the string is still the 8 characters, reapply the correct formatting before moving on to the next part of the condition which is to determine the Min and Max date values. Working in finance, many of these practices are to ensure we are working with the cleanest data possible before applying calculations. 
 
                          'Conditions to only pick up the correct values if it meet the Boolean condition True or False
@@ -87,7 +81,6 @@ The below code take the reformatted date colums and applies the Boolean expressi
                      Range("K" & SummaryRowTable).Value = QCloseBal - QOpenBal
                      Range("L" & SummaryRowTable).Value = ((QCloseBal - QOpenBal) / QOpenBal)
 
-##########################################################################################################
 The below part of the code I was help by a tutor to apply the correct formatting to the cells within an additional For Loop.  I formatted the cells which contain actual data and not "blanks" 
 
                  'Use conditional formatting to change the colour of the cells for Quarterly change if they reflect a positive or negative value after it generated into the cells in the code above
@@ -123,7 +116,6 @@ The below part of the code I was help by a tutor to apply the correct formatting
      
          Next i
 
-##########################################################################################################
 
 
          LastRow_Summary = Cells(Rows.Count, 12).End(xlUp).Row
