@@ -1,7 +1,6 @@
 # VBA-challenge
-This is a VBA assignment challenge 2 submission for Bryan Carney.  Kindly note, I did not copy all the code into this read me file, only the code which I needed to clairify my approach or I obtained help from an additional source.  I only used ChatGPT when I had to debug after I was able to successfully run my testing data and it produced the correct output.  When I tried to use the same code in the file which contained much more data, it failed.  ChatGPT reminded me that because I declared certain varables as Integers in my originall code, it would not work in my new file as it contained more lines than "Integer" could handle.  So I redclared these as "Long" and it successfully ran.
 
-        '################################################################################################################################################
+'################################################################################################################################################
 In the below part of the code, I was removing the screen updating prior to the code to minimize of the MACRO's run time.  This was a helpful tool provided by a co-worker
 I mentioned that the testing data was taking a long time to complete while working on the code and they suggested this and it really assisted in minimizing the turnaround time. 
 
@@ -9,7 +8,7 @@ I mentioned that the testing data was taking a long time to complete while worki
     'Trick shared by a co-worker to minimize run time on Macro
     Application.ScreenUpdating = False
 
-        '################################################################################################################################################
+'################################################################################################################################################
 In the below code, I wanted to setup the initial tabs to contain all the header information as well as setup some of the formatting for the columns I knew would be standard across 
 the sheets.  I took this coding template from a youtube course offered by Trish Connor-Cata at Microsoft.  It successfully ran throughout all my sheets and allowed me to setup the 
 columns and headers with the information I needed to see before moving on to the next part of the code.
@@ -37,7 +36,8 @@ columns and headers with the information I needed to see before moving on to the
         Selection.Columns.AutoFit
         Range("A1").Select
 
-        '################################################################################################################################################
+'################################################################################################################################################
+
 The below "For" loop was based on an in class activity in order to generate the Ticker Total along with its Total Volume
 
          For i = 2 To LastRow
@@ -49,7 +49,8 @@ The below "For" loop was based on an in class activity in order to generate the 
                  
                  Range("J" & SummaryRowTable).Value = Ticker_Name
                  Range("M" & SummaryRowTable).Value = Ticker_Total
-        '################################################################################################################################################
+'################################################################################################################################################
+
 The below code reformats column B into a proper date format.  As the testing data did not come in a date format, I wanted to ensure that I converted this to a date in order to feel confident about applying Min and Max conditions.  Also to ensure once I ran the code against the file they want, that it did not stop due to the cells being different formats. Also, I wanted to also "safe guard" the column to ensure that if the dates were not in the correct order, they would still ensure to grab the true Minimum and Maximum dates instead of simply taking the first line vs the last line. 
 
                 'Refortting of the data column so it could be calculated as a formal date
